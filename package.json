@@ -1,0 +1,27 @@
+{
+  "name": "myapispotify",
+  "version": "1.0.0",
+  "description": "Api con manejo de la api de Spotify",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuanWehitt/myApiSpotify.git"
+  },
+  "keywords": [
+    "spotify"
+  ],
+  "author": "Juan Cruz Wehitt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JuanWehitt/myApiSpotify/issues"
+  },
+  "homepage": "https://github.com/JuanWehitt/myApiSpotify#readme",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1"
+  }
+}
