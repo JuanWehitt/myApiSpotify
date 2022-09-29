@@ -1,15 +1,9 @@
-const axios = require('axios').default;
 require('dotenv').config();
+const Server = require('./models/server');
 
-const express = require('express')
-const app = express()
-const port=process.env.PORT 
-const api_key = process.env.API_KEY;
+//const axios = require('axios').default;
 
-app.get('/',(req,res) => {
-    res.send('hola hola')
-})
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+const server = new Server()
+
+server.listen()
