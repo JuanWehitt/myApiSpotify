@@ -61,21 +61,34 @@ const getArtista = (req = request, res = response) => {
     }
 }
 
-const getTraksArtista = (req,res) =>{
+const getAlbumsArtista = (req,res) =>{
     const {id} = req.params;
-    var options = {
+    console.log(id)
+    var config = {
         'method': 'GET',
-        'url': `https://api.spotify.com/v1/artists/${id}`,
+        'url': `https://api.spotify.com/v1/artists/${id}/albums`,
         headers: {
         'Authorization': 'Bearer ' + req.headers.access_token ,
         'Content-Type': 'application/json',
         'Host': 'api.spotify.com'},
-    };
+    }
+    axios(config)
+    .then((response) =>{
+        // handle success
+        res.status(200).json({data:response.data});            
+    }).catch(
+    (error) => {
+        res.status(400).json({
+                code: response.status,
+                msg: error
+        });  
+        }
+    ); 
 }
 
 
 
 module.exports = {
     getArtista,
-    //getTraksArtista
+    getAlbumsArtista
 }
