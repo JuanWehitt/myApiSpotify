@@ -59,7 +59,7 @@ const callback = (req, res) => {
   
           // use the access token to access the Spotify Web API
           request.get(options, (error, response, body) => {
-            console.log(response.headers);
+            //console.log(response.headers);
             res.status(200).json({
               message: "Acceso consedido a: "+body.display_name,  
               token: acces_token_g         
@@ -75,6 +75,31 @@ const callback = (req, res) => {
       });
     }
 }
+
+const refresh_token = (req, res) => {
+  
+  // requesting access token from refresh token
+  var refresh_token = req.query.refresh_token;
+  var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    headers: { 'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64')) },
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    },
+    json: true
+  };
+
+  request.post(authOptions, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        'access_token': access_token
+      });
+    }
+  });
+}
+
 const token = ()=>{
   console.log(acces_token_g)
   return acces_token_g
@@ -97,5 +122,7 @@ const token = ()=>{
 
   module.exports = {
     loguearse,
-    callback
+    callback,
+    refresh_token,
+    acces_token_g
   }
