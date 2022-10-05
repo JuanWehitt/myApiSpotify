@@ -27,7 +27,7 @@ const validar = (id) => {
     return isValid
 }
 
-const getArtista = (req, res) => {
+const getArtista = (req = request, res = response) => {
     const {id} = req.params;
     //console.log(req.headers.access_token);
     const valido = validar(id)
