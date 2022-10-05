@@ -31,18 +31,18 @@ const getArtista = (req, res) => {
     const {id} = req.params;
     //console.log(req.headers.access_token);
     const valido = validar(id)
-    if (valido) {
-        var options = {
-            'method': 'GET',
-            'url': `https://api.spotify.com/v1/artists/${id}`,
-            headers: {
+    if (valido) {        
+        const config = {
+            method: 'get',
+            url: `https://api.spotify.com/v1/artists/${id}`,
+            headers: {                
                 'Authorization': 'Bearer ' + req.headers.access_token ,
                 'Content-Type': 'application/json',
                 'Host': 'api.spotify.com'
-            },
-        };
-        const url = `https://api.spotify.com/v1/artists/${id}`
-        axios.get(url,options)
+            }
+        }
+        //const url = `https://api.spotify.com/v1/artists/${id}`
+        axios(config)
         .then((response) =>{
             // handle success
             res.status(200).json({data:response.data});            
