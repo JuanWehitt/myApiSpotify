@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 class Server{
 
 
@@ -15,7 +16,7 @@ class Server{
     middelware(){
         this.app.use(cors())
         this.app.use(express.static('public'))
-        //this.app.use(cookieParser())
+        this.app.use(cookieParser())
     }
 
     router(){
