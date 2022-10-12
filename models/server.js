@@ -20,7 +20,7 @@ class Server{
     }
 
     router(){
-        this.app.use('/',require('../routes/authorization'))
+        this.app.use('/', require('../routes/authorization'))
         this.app.use('/', require('../routes/artist'))
     }
 

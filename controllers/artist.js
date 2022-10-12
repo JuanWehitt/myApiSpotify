@@ -45,17 +45,26 @@ const getArtista = (req = request, res = response) => {
         axios(config)
         .then((response) =>{
             // handle success
-            res.status(200).json({data:response.data});            
+            res.status(200).json({
+                code: 200,
+                status:'OK', 
+                data:response.data});            
         }).catch(
         (error) => {
-            res.status(400).json({
-                    code: response.status,
-                    msg: error
-            });  
+            console.log(error.code)
+            if(error.code == 'ERR_BAD_REQUEST'){
+                res.status(404).json({
+                                code: 404,
+                                status: 'NOT_FOUND',
+                                msg: "El id no coincide con ningun artista"
+                        });
             }
+        }          
         ); 
     }else{
         res.status(403).json({
+            code: 400,
+            status: 'BAD_REQUEST',
             mesnaje: "El id no es correcto"
         })
     }
@@ -63,7 +72,8 @@ const getArtista = (req = request, res = response) => {
 
 const getAlbumsArtista = (req,res) =>{
     const {id} = req.params;
-    console.log(id)
+    //console.log(id)
+
     var config = {
         'method': 'GET',
         'url': `https://api.spotify.com/v1/artists/${id}/albums`,
@@ -75,20 +85,60 @@ const getAlbumsArtista = (req,res) =>{
     axios(config)
     .then((response) =>{
         // handle success
-        res.status(200).json({data:response.data});            
+        res.status(200).json({  
+            code: 200,
+            status:'OK',          
+            data:response.data
+        });            
     }).catch(
     (error) => {
-        res.status(400).json({
-                code: response.status,
-                msg: error
-        });  
+        if(error.code == 'ERR_BAD_REQUEST'){
+            res.status(400).json({
+                            code: 400,
+                            status: 'BAD_REQUEST',
+                            msg: error
+                    });
+            }          
         }
     ); 
 }
 
+const getTracksAlbums = (req, res) =>{
+    const {id} = req.params;//del album
+    const {limit} = req.query;
+    //console.log(limit)
 
+    var config = {
+        'method': 'GET',
+        'url': `https://api.spotify.com/v1/albums/${id}/tracks?limit=${limit}`,
+        headers: {
+        'Authorization': 'Bearer ' + req.headers.access_token ,
+        'Content-Type': 'application/json',
+        'Host': 'api.spotify.com'},
+    }
+    axios(config)
+    .then((response) =>{
+        // handle success
+        res.status(200).json({  
+            code: 200,
+            status:'OK',          
+            data:response.data
+        });            
+    }).catch(
+    (error) => {
+        if(error.code == 'ERR_BAD_REQUEST'){
+            res.status(400).json({
+                            code: 400,
+                            status: 'BAD_REQUEST',
+                            msg: "no se encontro"
+                    });
+            }          
+        }
+    ); 
+}
 
 module.exports = {
     getArtista,
-    getAlbumsArtista
+    getAlbumsArtista,
+    getTracksAlbums
 }
