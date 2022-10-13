@@ -29,14 +29,14 @@ const validar = (id) => {
 
 const getArtista = (req = request, res = response) => {
     const {id} = req.params;
-    //console.log(req.headers.access_token);
+    
     const valido = validar(id)
     if (valido) {        
         const config = {
             method: 'get',
             url: `https://api.spotify.com/v1/artists/${id}`,
             headers: {                
-                'Authorization': 'Bearer ' + req.headers.access_token ,
+                'Authorization': 'Bearer '+req.headers.access_token ,
                 'Content-Type': 'application/json',
                 'Host': 'api.spotify.com'
             }
