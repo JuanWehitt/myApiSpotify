@@ -8,7 +8,8 @@ class Server{
         this.app = express()
         this.middelware()
         this.router()
-        this.port=process.env.PORT         
+        this.port=process.env.PORT  
+        //Quitar si no se utiliza    
         this.scopes = 'user-read-private user-read-email'
         
     }
@@ -20,6 +21,9 @@ class Server{
     }
 
     router(){
+        //Se recomienda utilizar un versionado para las api
+        //Ej 
+        //this.app.use('/api/v1/artist', require('../routes/artist'))
         this.app.use('/', require('../routes/authorization'))
         this.app.use('/', require('../routes/artist'))
     }

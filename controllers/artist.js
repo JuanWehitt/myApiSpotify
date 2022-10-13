@@ -1,4 +1,5 @@
 const { request, response } = require("express")
+//Los cors van importados en nuestro modelo de servidor
 const cors = require('cors')
 const axios = require('axios').default
 
@@ -24,11 +25,17 @@ const validar = (id) => {
             }
         }
     }
-    return isValid
+    //return isValid
+    
+    //Sugerencia para acortar el código      
+    return (input && input.length == longitud && pattern.test(input));
 }
 
 const getArtista = (req = request, res = response) => {
     const {id} = req.params;
+
+    //En caso que el token no venga por headers se puede obtener internamente de nuestra api, en este caso por variable de entorno
+    const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
     
     const valido = validar(id)
     if (valido) {        
@@ -36,7 +43,7 @@ const getArtista = (req = request, res = response) => {
             method: 'get',
             url: `https://api.spotify.com/v1/artists/${id}`,
             headers: {                
-                'Authorization': 'Bearer '+req.headers.access_token ,
+                'Authorization': 'Bearer ' + access_token ,
                 'Content-Type': 'application/json',
                 'Host': 'api.spotify.com'
             }
@@ -45,6 +52,7 @@ const getArtista = (req = request, res = response) => {
         axios(config)
         .then((response) =>{
             // handle success
+            // :-) 
             res.status(200).json({
                 code: 200,
                 status:'OK', 
@@ -52,7 +60,9 @@ const getArtista = (req = request, res = response) => {
         }).catch(
         (error) => {
             console.log(error.code)
-            if(error.code == 'ERR_BAD_REQUEST'){
+            //Siempre emitir una respuesta
+            if(error.code == 'ERR_BAD_REQUEST'){                
+                 // :-) 
                 res.status(404).json({
                                 code: 404,
                                 status: 'NOT_FOUND',
@@ -62,6 +72,7 @@ const getArtista = (req = request, res = response) => {
         }          
         ); 
     }else{
+        // Utilizar el 400 para el badrequest, el 403 es Forbidden
         res.status(403).json({
             code: 400,
             status: 'BAD_REQUEST',
@@ -73,18 +84,21 @@ const getArtista = (req = request, res = response) => {
 const getAlbumsArtista = (req,res) =>{
     const {id} = req.params;
     //console.log(id)
+    //En caso que el token no venga por headers se puede obtener internamente de nuestra api, en este caso por variable de entorno
+    const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
 
     var config = {
         'method': 'GET',
         'url': `https://api.spotify.com/v1/artists/${id}/albums`,
         headers: {
-        'Authorization': 'Bearer ' + req.headers.access_token ,
+        'Authorization': 'Bearer ' + access_token ,
         'Content-Type': 'application/json',
         'Host': 'api.spotify.com'},
     }
     axios(config)
     .then((response) =>{
         // handle success
+         // :-) 
         res.status(200).json({  
             code: 200,
             status:'OK',          
@@ -92,7 +106,9 @@ const getAlbumsArtista = (req,res) =>{
         });            
     }).catch(
     (error) => {
+        //Siempre emitir una respuesta
         if(error.code == 'ERR_BAD_REQUEST'){
+             // :-) 
             res.status(400).json({
                             code: 400,
                             status: 'BAD_REQUEST',
@@ -108,17 +124,22 @@ const getTracksAlbums = (req, res) =>{
     const {limit} = req.query;
     //console.log(limit)
 
+    //En caso que el token no venga por headers se puede obtener internamente de nuestra api, en este caso por variable de entorno
+    const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
+
+    //¿El limit es obligatorio ? De no ser así validar el llamado cuando no se pasa por query params
     var config = {
         'method': 'GET',
         'url': `https://api.spotify.com/v1/albums/${id}/tracks?limit=${limit}`,
         headers: {
-        'Authorization': 'Bearer ' + req.headers.access_token ,
+        'Authorization': 'Bearer ' + access_token ,
         'Content-Type': 'application/json',
         'Host': 'api.spotify.com'},
     }
     axios(config)
     .then((response) =>{
         // handle success
+         // :-) 
         res.status(200).json({  
             code: 200,
             status:'OK',          
@@ -126,7 +147,9 @@ const getTracksAlbums = (req, res) =>{
         });            
     }).catch(
     (error) => {
+         //Siempre emitir una respuesta
         if(error.code == 'ERR_BAD_REQUEST'){
+             // :-) 
             res.status(400).json({
                             code: 400,
                             status: 'BAD_REQUEST',
