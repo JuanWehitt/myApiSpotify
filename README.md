@@ -21,6 +21,7 @@ PORT= NRO_DE_PUERTO
 CLIENT_ID=VALOR_DE_LA_CADENA_SIN_COMILLAS_NI_PUNTO_Y_COMA
 CLIENT_SECRET=VALOR_DE_LA_CADENA_SIN_COMILLAS_NI_PUNTO_Y_COMA
 REDIRECT_URI=VALOR_DE_LA_CADENA_SIN_COMILLAS_NI_PUNTO_Y_COMA
+ACCESS_TOKEN=VALOR_DE_LA_CADENA_SIN_COMILLAS_NI_PUNTO_Y_COMA
 
 (puede modificar "demo.env" quitando la palabra "demo")
 
@@ -28,13 +29,18 @@ Estos valores se enviaran personalmente.
 
 Correr la app con "node app" desde la linea de comandos.
 Al correr la app, debemos entrar en localhost:NRO_DE_PUERTO y loguearse en Spotify.
-Al loguearse nos dará un token que debemos copiar para hacer las pruebas en Postman.
+Al loguearse nos dará un token que debemos copiar para hacer las pruebas en Postman o utilizarlo en su app.
 
 puede encontrar la documentacion de postman aqui: 
 https://documenter.getpostman.com/view/20209460/2s83zpHzmn
 
 El token debe ser ubicado en Authorization, como Bearer Token
+Si no es ubicado alli, debe estar en las variables del archivo .env en ACCESS_TOKEN
 
+Para finalizar la conexion presionar Ctrl+C
+
+
+<<<<<<<<< NO FUNCIONA MOMENTANEAMENTE - El plan heroku expiro >>>>>
 Utilizar la API desde la web
 
 Puede utilizar esta api sin descargar el repositorio, ya que se encuentra alojada en:
