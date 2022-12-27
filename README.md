@@ -14,6 +14,7 @@ Para tener las apis disponibles en el servidor local, es necesario:
 - descargar e instalar node.js (https://nodejs.org/es/download/)
 - instalar dotenv (npm install dotenv)
 - configurar el archivo .env
+- ejecutar npm install en la terminal
 
 El archivo .env debe ser creado en la raiz del proyecto y contener:
 
