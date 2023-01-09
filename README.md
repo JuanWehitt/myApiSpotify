@@ -3,8 +3,15 @@ Api con manejo de la api de Spotify
 Se exponen tres endpoints donde se puede consultar:
 
 * Un artista por el id
-* Los albums de un artista
-* Los traks de un album, poniendo un limite de traks para mostrar.
+http://localhost:3000/artist/:id
+
+* Los albums de un artista por el id
+http://localhost:3000/artist/:id/albums?limit=30&offset=10&include_groups=album
+Los query Params son opcionales, por defecto: limit=20, offset=0, include_groups=album,single,appears_on,compilation (todos los tipos)
+
+* Los traks de un album, poniendo un limite de traks para mostrar, por id de album.
+http://localhost:3000/albums/:id/tracks?limit=11&offset=5
+Los query Params son opcionales, por defecto: limit=20, offset=0,
 
 Los resultados se retornan en formato json.
 
