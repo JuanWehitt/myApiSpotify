@@ -158,7 +158,7 @@ const getTracksAlbums = (req, res) =>{
     }    
 
     const url = `https://api.spotify.com/v1/albums/${id}/tracks${query_params}`;
-    console.log(url);
+    //console.log(url);
     var config = {
         'method': 'GET',
         'url': url,
