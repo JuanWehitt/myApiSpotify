@@ -122,15 +122,29 @@ const getAlbumsArtista = (req,res) =>{
 const getTracksAlbums = (req, res) =>{
     const {id} = req.params;//del album
     const {limit} = req.query;
-    //console.log(limit)
+    const {offset} = req.query;
+    //console.log(offset);
 
     //En caso que el token no venga por headers se puede obtener internamente de nuestra api, en este caso por variable de entorno
     const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
-
+    var query = "";
     //¿El limit es obligatorio ? De no ser así validar el llamado cuando no se pasa por query params
+    //Resuelto
+    if (limit == undefined){
+        query = "";
+    }else{
+        if (offset == undefined) {
+            query = `?limit=${limit}`;
+        }else{
+            query = `?limit=${limit}&offset=${offset}`;
+        }
+    }    
+
+    const url = `https://api.spotify.com/v1/albums/${id}/tracks${query}`;
+    console.log(url);
     var config = {
         'method': 'GET',
-        'url': `https://api.spotify.com/v1/albums/${id}/tracks?limit=${limit}`,
+        'url': url,
         headers: {
         'Authorization': 'Bearer ' + access_token ,
         'Content-Type': 'application/json',
