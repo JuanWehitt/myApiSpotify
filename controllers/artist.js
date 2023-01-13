@@ -91,7 +91,7 @@ const getAlbumsArtista = (req,res) =>{
     const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
     var query_params = "";
 
-    (limit != undefined || offset != undefined || include_groups || undefined)? query_params="?" : null;
+    (limit != undefined || offset != undefined || include_groups != undefined)? query_params="?" : null;
 
     (limit != undefined)? query_params += `limit=${limit}&` : query_params = `?limit=50&`;
     (offset != undefined)? query_params += `offset=${offset}&` : null;
@@ -143,19 +143,12 @@ const getTracksAlbums = (req, res) =>{
     var query_params = "";
     //¿El limit es obligatorio ? De no ser así validar el llamado cuando no se pasa por query params
     //Resuelto
-    if (limit == undefined){
-        if (offset == undefined) {
-            query_params = "";
-        }else{
-            query_params = `?offset=${offset}`;
-        }
-    }else{
-        if (offset == undefined) {
-            query_params = `?limit=${limit}`;
-        }else{
-            query_params = `?limit=${limit}&offset=${offset}`;
-        }
-    }    
+
+    (limit != undefined || offset != undefined )? query_params="?" : null;
+
+    (limit != undefined)? query_params += `limit=${limit}&` : query_params = `?limit=50&`;
+    (offset != undefined)? query_params += `offset=${offset}&` : null;    
+    (query_params=="")? null : query_params=query_params.slice(0,query_params.length-1);   
 
     const url = `https://api.spotify.com/v1/albums/${id}/tracks${query_params}`;
     //console.log(url);
