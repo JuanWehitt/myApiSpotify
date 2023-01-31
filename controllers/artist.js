@@ -1,4 +1,4 @@
-const { request, response } = require("express")
+const { request, response, query } = require("express")
 //Los cors van importados en nuestro modelo de servidor
 const cors = require('cors')
 const axios = require('axios').default
@@ -83,13 +83,26 @@ const getArtista = (req = request, res = response) => {
 
 const getAlbumsArtista = (req,res) =>{
     const {id} = req.params;
+    const {limit} = req.query;
+    const {offset} = req.query;
+    const {include_groups} = req.query;
     //console.log(id)
     //En caso que el token no venga por headers se puede obtener internamente de nuestra api, en este caso por variable de entorno
     const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
+    var query_params = "";
 
+    (limit != undefined || offset != undefined || include_groups != undefined)? query_params="?" : null;
+
+    (limit != undefined)? query_params += `limit=${limit}&` : query_params = `?limit=50&`;
+    (offset != undefined)? query_params += `offset=${offset}&` : null;
+    (include_groups != undefined)? query_params += `include_groups=${include_groups}&` : null ;
+    (query_params=="")? null : query_params=query_params.slice(0,query_params.length-1);
+
+    const url = `https://api.spotify.com/v1/artists/${id}/albums${query_params}`;
+    //console.log(url+" limit = "+limit+(limit!=undefined)+(query_params==""));
     var config = {
         'method': 'GET',
-        'url': `https://api.spotify.com/v1/artists/${id}/albums`,
+        'url': url,
         headers: {
         'Authorization': 'Bearer ' + access_token ,
         'Content-Type': 'application/json',
@@ -122,15 +135,26 @@ const getAlbumsArtista = (req,res) =>{
 const getTracksAlbums = (req, res) =>{
     const {id} = req.params;//del album
     const {limit} = req.query;
-    //console.log(limit)
+    const {offset} = req.query;
+    //console.log(offset);
 
     //En caso que el token no venga por headers se puede obtener internamente de nuestra api, en este caso por variable de entorno
     const access_token = req.headers.access_token || process.env.ACCESS_TOKEN;
-
+    var query_params = "";
     //¿El limit es obligatorio ? De no ser así validar el llamado cuando no se pasa por query params
+    //Resuelto
+
+    (limit != undefined || offset != undefined )? query_params="?" : null;
+
+    (limit != undefined)? query_params += `limit=${limit}&` : query_params = `?limit=50&`;
+    (offset != undefined)? query_params += `offset=${offset}&` : null;    
+    (query_params=="")? null : query_params=query_params.slice(0,query_params.length-1);   
+
+    const url = `https://api.spotify.com/v1/albums/${id}/tracks${query_params}`;
+    //console.log(url);
     var config = {
         'method': 'GET',
-        'url': `https://api.spotify.com/v1/albums/${id}/tracks?limit=${limit}`,
+        'url': url,
         headers: {
         'Authorization': 'Bearer ' + access_token ,
         'Content-Type': 'application/json',
